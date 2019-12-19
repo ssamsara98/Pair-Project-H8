@@ -21,4 +21,5 @@ router.post("/signup", (req, res) => {
   res.send({body: req.body, userModel: console.log(User)});
 })
 
+
 module.exports = router;
