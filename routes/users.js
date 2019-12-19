@@ -47,7 +47,12 @@ router.get("/:id/edit", (req, res) => {
     }
   })
   .then((user) => {
-    res.render("pages/userEdit", {user})
+    if (user) {
+      res.render("pages/userEdit", {user})
+    }
+    else {
+      res.redirect("/")
+    }
   })
   .catch((err) => {
     console.error(err);
@@ -72,6 +77,8 @@ router.get("/:id/delete", (req, res) => {
     res.redirect("/")
   });
 });
+
+
 
 // POST
 router.post("/:id/edit", (req, res) => {
