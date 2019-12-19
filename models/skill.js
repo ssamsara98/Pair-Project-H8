@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Skill.associate = function(models) {
     // associations can be defined here
-    Skill.belongsToMany(models.User, { through: models.UserSkill })
+    Skill.belongsToMany(models.User, { through: models.UserSkill, foreignKey: "SkillId", otherKey: "UserId" })
   };
   return Skill;
 };

@@ -7,9 +7,10 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model { }
   User.init({
     name: DataTypes.STRING,
-    emai: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         isEmail: true
       }
@@ -23,16 +24,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (instance, options) => {
-        bcrypt.hash(instance.password, saltRounds, (err, hash) => {
-          instance.password = hash;
-        });
+        instance.password = bcrypt.hashSync(instance.password, saltRounds);
       }
     },
     sequelize
   })
   User.associate = function(models) {
     // associations can be defined here
-    User.belongsToMany(models.Skill, { through: models.UserSkill })
+    User.belongsToMany(models.Skill, { through: models.UserSkill, foreignKey:"UserId", otherKey: "SkillId" })
   };
   return User;
 };

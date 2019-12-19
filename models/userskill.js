@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   })
   UserSkill.associate = function(models) {
     // associations can be defined here
-    UserSkill.belongsTo(models.User);
-    UserSkill.belongsTo(models.Skill)
+    UserSkill.belongsTo(models.User, { foreignKey:"UserId" });
+    UserSkill.belongsTo(models.Skill, { foreignKey: "SkillId" })
   };
   return UserSkill;
 };

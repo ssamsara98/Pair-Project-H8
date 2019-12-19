@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../partials/head") %>
+<body>
+    <%- include("../partials/navbar") %>
+    <div class="container">
+        <div class="jumbotron">
+            <div>
+                <h1>Resume</h1>
+                <div>
+                    <h6>Name</h6>
+                    <p class="lead"><%= user.name %></p>
+                </div>
+                <div>
+                    <h6>Date of Birth</h6>
+                    <p class="lead"><%= user.tanggalLahir %></p>
+                </div>
+                <div>
+                    <h6>Address</h6>
+                    <p class="lead"><%= user.address %></p>
+                </div>
+                <div>
+                    <h6>Email</h6>
+                    <p class="lead"><%= user.email %></p>
+                </div>
+                <div>
+                    <h6>Phone</h6>
+                    <p class="lead"><%= user.phone %></p>
+                </div>
+                <div>
+                    <h6>Description</h6>
+                    <p class="lead"><%= user.descripton %></p>
+                </div>
+                <div>
+                    <h6>Experience</h6>
+                    <p class="lead"><%= user.exp %></p>
+                </div>
+            </div>
+            <p><a href="/users/<%= user.id %>/edit">Edit</a> | <a href="/users/<%= user.id %>/delete">Delete</a></p>
+        </div>
+    </div>
+</body>
+</html>
