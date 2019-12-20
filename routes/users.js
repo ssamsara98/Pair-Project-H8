@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { User, Skill } = require('../models');
+const { User, Skill, UserSkill } = require('../models');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -70,7 +70,14 @@ router.get("/:id/delete", (req, res) => {
     }
   })
   .then(() => {
-    res.redirect("/");
+    return UserSkill.destroy({
+      where: {
+        UserId: id
+      }
+    })
+  })
+  .then(() => {
+    res.redirect("/")
   })
   .catch((err) => {
     console.error(err);
@@ -78,7 +85,15 @@ router.get("/:id/delete", (req, res) => {
   });
 });
 
-
+router.get("/:id/add-skill", (req, res) => {
+  Skill.findAll()
+  .then((skills) => {
+    res.render("pages/userAddSkill", {skills})
+  }).catch((err) => {
+    console.error(err);
+    res.redirect("/")
+  });
+})
 
 // POST
 router.post("/:id/edit", (req, res) => {
@@ -89,11 +104,22 @@ router.post("/:id/edit", (req, res) => {
     }
   })
   .then(() => {
-    res.redirect("/")
+    res.redirect(`/users/${id}`)
   })
   .catch((err) => {
     console.error(err);
     res.redirect("/")  
+  });
+});
+
+router.post("/:id/add-skill", (req, res) => {
+  req.body.UserId = req.params.id;
+  UserSkill.create()
+  .then(() => {
+    res.redirect("/")
+  }).catch((err) => {
+    console.error(err);
+    res.redirect("/")
   });
 })
 

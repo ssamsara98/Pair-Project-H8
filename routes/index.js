@@ -2,10 +2,19 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
+const haser = require('../helpers/hasher');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'Express' });
+  console.log(req.session);
+  if (req.session.loggedIn) {
+    res.locals.loggedIn = true;
+    next()
+  }
+  else {
+    res.render("pages/home")
+  }
+}, (req, res) => {
   res.render("pages/home")
 });
 
@@ -16,6 +25,13 @@ router.get("/signup", (req, res) => {
 router.get("/login", (req, res) => {
   res.render("pages/login");
 });
+
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    console.error(err);
+  })
+  res.redirect("/")
+})
 
 /* POST */
 router.post("/login", (req, res) => {
@@ -29,7 +45,12 @@ router.post("/login", (req, res) => {
   .then((result) => {
     bcrypt.compare(password, result.password, (err, isValid) => {
       if (isValid) {
-        res.send(result);
+        req.session.userId = result.id;
+        req.session.email = result.email;
+        req.session.password = haser(result.password);
+        req.session.loggedIn = true;
+        req.session.cookie.expires = 60 * 60 * 60 * 24;
+        res.redirect("/");
       }
       else {
         res.redirect("/");

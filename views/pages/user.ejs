@@ -35,7 +35,19 @@
                     <h6>Experience</h6>
                     <p class="lead"><%= user.exp %></p>
                 </div>
+                <div>
+                    <h6>Skills</h6>
+                    <ul>
+                        <%
+                        const userSkills = user.Skills;
+                        for (let i = 0; i < userSkills.length; i++) {
+                            const skill = userSkills[i]; %>
+                           <li><%= skill.SkillName %></li> 
+                        <% } %>
+                    </ul>
+                </div>
             </div>
+            <p><a href="/users/<%= user.id %>/add-skill">Add Skill</a></p>
             <p><a href="/users/<%= user.id %>/edit">Edit</a> | <a href="/users/<%= user.id %>/delete">Delete</a></p>
         </div>
     </div>

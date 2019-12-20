@@ -1,10 +1,10 @@
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const hasher = require('../helpers/hasher');
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model;
-  class User extends Model { }
+  class User extends Model {
+  }
   User.init({
     name: DataTypes.STRING,
     email: {
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (instance, options) => {
-        instance.password = bcrypt.hashSync(instance.password, saltRounds);
+        instance.password = hasher(instance.password)
       }
     },
     sequelize
